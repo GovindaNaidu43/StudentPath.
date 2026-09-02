@@ -1,7 +1,7 @@
 import AdminTopbar from "@/components/AdminTopbar";
 import DeleteExamButton from "@/components/DeleteExamButton";
 import { supabase } from "@/lib/supabase";
-import { createExam } from "../actions";
+import { createExam } from "@/app/admin/actions";
 import Link from "next/link";
 
 export default async function AdminExamsPage({

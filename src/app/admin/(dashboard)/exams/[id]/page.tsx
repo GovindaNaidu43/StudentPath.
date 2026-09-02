@@ -1,5 +1,5 @@
 import { supabase } from "@/lib/supabase";
-import { updateExam } from "../../actions";
+import { updateExam } from "@/app/admin/actions";
 import Link from "next/link";
 
 type PageProps = {
@@ -104,7 +104,7 @@ export default async function EditExamPage({ params }: PageProps) {
         <div className="relative overflow-hidden rounded-[36px] border border-white/10 bg-white/[0.04] backdrop-blur-2xl p-8 lg:p-10">
           <div className="relative z-10">
             <p className="uppercase tracking-[0.35em] text-cyan-400 text-xs mb-2">
-              Links & Resources
+              Links &amp; Resources
             </p>
             <p className="text-zinc-400 mb-8 text-sm">
               Provide official links students can use to register or learn more.

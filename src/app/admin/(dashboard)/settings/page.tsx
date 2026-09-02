@@ -1,6 +1,6 @@
 import AdminTopbar from "@/components/AdminTopbar";
 import { supabase } from "@/lib/supabase";
-import { saveSettings } from "../actions";
+import { saveSettings } from "@/app/admin/actions";
 
 export default async function AdminSettingsPage() {
 
