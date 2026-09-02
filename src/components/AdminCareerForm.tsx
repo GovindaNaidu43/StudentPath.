@@ -466,8 +466,9 @@ export default function AdminCareerForm({ career }: Props) {
 
   const SaveButton = ({ className = "" }: { className?: string }) => (
     <button
-      type="submit"
-      disabled={isPending}
+  type="submit"
+  form="career-editor-form"
+  disabled={isPending}
       className={`
         flex items-center gap-2 px-5 py-2.5 rounded-xl
         bg-fuchsia-600 hover:bg-fuchsia-500 active:scale-[0.97]
@@ -690,7 +691,10 @@ export default function AdminCareerForm({ career }: Props) {
         ══════════════════════════════════════ */}
 
         <main className="flex-1 min-w-0 overflow-y-auto">
-          <form onSubmit={handleSubmit} className="min-h-full">
+          <form
+  id="career-editor-form"
+  onSubmit={handleSubmit}
+>
 
             {/* ── ALWAYS-MOUNTED HIDDEN FIELDS ── */}
             <input type="hidden" name="id" value={career.id} />
