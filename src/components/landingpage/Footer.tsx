@@ -38,7 +38,7 @@ export default function Footer() {
               pursue a future they're excited about.
             </p>
             <div className="mt-6 flex gap-3">
-              {["𝕏", "in", "IG", "▶"].map((s) => (
+              {["ð•", "in", "IG", "â–¶"].map((s) => (
                 <a
                   key={s}
                   href="#"
@@ -68,8 +68,8 @@ export default function Footer() {
         </div>
 
         <div className="mt-14 flex flex-col items-center justify-between gap-4 border-t border-white/8 pt-8 sm:flex-row">
-          <p className="text-sm text-white/40">© {new Date().getFullYear()} Studentpath, Inc. All rights reserved.</p>
-          <p className="text-sm text-white/40">Made with care for curious minds 🚀</p>
+          <p className="text-sm text-white/40">Â© {new Date().getFullYear()} Studentpath, Inc. All rights reserved.</p>
+          <p className="text-sm text-white/40">Made with care for curious minds ðŸš€</p>
         </div>
       </div>
     </footer>

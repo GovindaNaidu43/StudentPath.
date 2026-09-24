@@ -1,6 +1,6 @@
-import AdminTopbar from "@/components/AdminTopbar";
-import DeleteExamButton from "@/components/DeleteExamButton";
-import { supabase } from "@/lib/supabase";
+import AdminTopbar from "@/components/navigation/AdminTopbar";
+import DeleteExamButton from "@/features/exams/components/DeleteExamButton";
+import { getAdminExams } from "@/features/exams/admin-repository";
 import { createExam } from "@/app/admin/actions";
 import Link from "next/link";
 
@@ -11,12 +11,7 @@ export default async function AdminExamsPage({
 }) {
   const { q } = await searchParams;
 
-  let query = supabase.from("exams").select("*").order("id");
-  if (q) {
-    query = query.ilike("title", `%${q}%`);
-  }
-
-  const { data: exams, error } = await query;
+  const { data: exams, error } = await getAdminExams(q);
 
   const categoryColors: Record<string, string> = {
     Competitive: "text-fuchsia-400 border-fuchsia-500/30 bg-fuchsia-500/10",
@@ -59,7 +54,7 @@ export default async function AdminExamsPage({
               />
               {q && (
                 <Link href="/admin/exams" className="text-zinc-500 hover:text-white transition text-xs">
-                  Clear ✕
+                  Clear âœ•
                 </Link>
               )}
             </div>
@@ -136,7 +131,7 @@ export default async function AdminExamsPage({
                       )}
                     </div>
 
-                    {/* ACTIONS — no onClick in server component */}
+                    {/* ACTIONS â€” no onClick in server component */}
                     <div className="flex gap-3 flex-wrap">
                       <Link
                         href={`/admin/exams/${exam.id}`}
@@ -151,11 +146,11 @@ export default async function AdminExamsPage({
                           target="_blank"
                           className="px-5 py-3 rounded-2xl border border-white/10 bg-white/5 hover:bg-white/10 transition text-sm"
                         >
-                          Visit ↗
+                          Visit â†—
                         </Link>
                       )}
 
-                      {/* DELETE — client component handles onClick + confirm */}
+                      {/* DELETE â€” client component handles onClick + confirm */}
                       <DeleteExamButton
                         id={String(exam.id)}
                         title={exam.title}
@@ -168,7 +163,7 @@ export default async function AdminExamsPage({
           </div>
         ) : !error ? (
           <div className="flex flex-col items-center justify-center py-32 text-center">
-            <div className="text-5xl mb-6">📝</div>
+            <div className="text-5xl mb-6">ðŸ“</div>
             <h3 className="text-2xl font-black mb-3">
               {q ? "No exams found" : "No exams yet"}
             </h3>

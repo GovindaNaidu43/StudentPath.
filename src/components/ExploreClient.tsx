@@ -1,10 +1,10 @@
 "use client";
 import Link from "next/link";
 import { useState , useEffect,useRef} from "react";
-import QuickExplore from "@/components/QuickExplore";
+import QuickExplore from "@/components/ui/QuickExplore";
 import {Search,} from "lucide-react";
-import CareerSection from "@/components/sections/CareersSection";
-import ExamsSection from "@/components/sections/ExamsSection";
+import CareerSection from "@/features/careers/components/CareersSection";
+import ExamsSection from "@/features/exams/components/ExamsSection";
 
 export default function ExploreClient({
 

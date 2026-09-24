@@ -271,7 +271,7 @@ export default function LandingHero() {
             "
           >
 
-            ~ 𝙶𝚘𝚟𝚒𝚗𝚍𝚊 𝙽𝚊𝚒𝚍𝚞
+            ~ ð™¶ðš˜ðšŸðš’ðš—ðšðšŠ ð™½ðšŠðš’ðšðšž
           </div>
 
         </motion.h1>
@@ -409,7 +409,7 @@ export default function LandingHero() {
         text-lg
         "
       >
-        ✦
+        âœ¦
       </span>
 
     </div>

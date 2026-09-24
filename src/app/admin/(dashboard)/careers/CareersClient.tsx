@@ -3,7 +3,7 @@
 import { useState, useMemo } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
-import DeleteCareerButton from "@/components/DeleteCareerButton";
+import DeleteCareerButton from "@/features/careers/admin/DeleteCareerButton";
 import { createCareer } from "@/app/admin/actions";
 import {
   Search,
@@ -49,7 +49,7 @@ export default function CareersClient({
   const [sort, setSort] = useState<SortMode>("newest");
   const [view, setView] = useState<"grid" | "list">("grid");
 
-  /* ── Filtered + sorted list ─────────── */
+  /* â”€â”€ Filtered + sorted list â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   const filtered = useMemo(() => {
     let result = [...careers];
@@ -89,7 +89,7 @@ export default function CareersClient({
     return result;
   }, [careers, localSearch, initialQuery, category, sort]);
 
-  /* ── Search submission (server-side) ── */
+  /* â”€â”€ Search submission (server-side) â”€â”€ */
 
   function handleSearchSubmit(e: React.FormEvent) {
     e.preventDefault();
@@ -102,9 +102,9 @@ export default function CareersClient({
 
   return (
     <>
-      {/* ══════════════════════════════════════
-          TOOLBAR — search, filter, sort, view
-      ══════════════════════════════════════ */}
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
+          TOOLBAR â€” search, filter, sort, view
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
 
       <div className="rounded-xl border border-white/[0.07] bg-white/[0.02] p-3 mb-6">
         <div className="flex flex-col md:flex-row gap-3">
@@ -118,7 +118,7 @@ export default function CareersClient({
             <input
               value={localSearch}
               onChange={(e) => setLocalSearch(e.target.value)}
-              placeholder="Search careers by title, category or slug…"
+              placeholder="Search careers by title, category or slugâ€¦"
               className="bg-transparent outline-none w-full text-sm placeholder:text-zinc-600"
             />
             {(localSearch || initialQuery) && (
@@ -178,8 +178,8 @@ export default function CareersClient({
             >
               <option value="newest">Newest First</option>
               <option value="oldest">Oldest First</option>
-              <option value="title-az">Title A → Z</option>
-              <option value="title-za">Title Z → A</option>
+              <option value="title-az">Title A â†’ Z</option>
+              <option value="title-za">Title Z â†’ A</option>
             </select>
             <ChevronDown
               size={13}
@@ -222,13 +222,13 @@ export default function CareersClient({
         </p>
       )}
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           CAREER GRID / LIST
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
 
       {filtered.length > 0 ? (
         view === "grid" ? (
-          /* ── GRID VIEW ──────────────────── */
+          /* â”€â”€ GRID VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
           <div className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-4">
             {filtered.map((career) => (
               <Link
@@ -330,7 +330,7 @@ export default function CareersClient({
             ))}
           </div>
         ) : (
-          /* ── LIST VIEW ──────────────────── */
+          /* â”€â”€ LIST VIEW â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
           <div className="space-y-2">
             {filtered.map((career) => (
               <Link
@@ -394,7 +394,7 @@ export default function CareersClient({
 
                 {/* Salary */}
                 <div className="hidden md:block text-xs text-zinc-500 shrink-0">
-                  {career.salary || "—"}
+                  {career.salary || "â€”"}
                 </div>
 
                 {/* Actions */}
@@ -418,7 +418,7 @@ export default function CareersClient({
           </div>
         )
       ) : (
-        /* ── EMPTY STATE ──────────────────── */
+        /* â”€â”€ EMPTY STATE â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
         <div className="flex flex-col items-center justify-center py-24 text-center">
           <div className="w-16 h-16 rounded-2xl bg-fuchsia-500/10 border border-fuchsia-500/20 flex items-center justify-center mb-6">
             <Rocket size={28} className="text-fuchsia-400" />

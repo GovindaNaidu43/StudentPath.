@@ -30,7 +30,7 @@ const testimonials = [
   },
   {
     quote:
-      "My daughter finally has direction and confidence. Worth every penny — she talks about her ‘path’ at dinner every single night now.",
+      "My daughter finally has direction and confidence. Worth every penny â€” she talks about her â€˜pathâ€™ at dinner every single night now.",
     name: "Elena M.",
     role: "Parent",
     grad: "from-amber-400 to-orange-500",
@@ -70,7 +70,7 @@ export default function Testimonials() {
           className="mx-auto max-w-3xl text-center"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-amber-300 bg-amber-100 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-amber-800 shadow-xs">
-            ⭐ 4.9/5 Rating From 120k+ Students
+            â­ 4.9/5 Rating From 120k+ Students
           </span>
 
           <h2 className="mt-5 font-display text-4xl font-black tracking-tight text-slate-900 sm:text-5xl md:text-6xl leading-tight">
@@ -100,7 +100,7 @@ export default function Testimonials() {
               </div>
 
               <blockquote className="mt-4 text-base leading-relaxed text-slate-700 font-medium">
-                “{t.quote}”
+                â€œ{t.quote}â€
               </blockquote>
 
               <figcaption className="mt-6 flex items-center gap-3.5">

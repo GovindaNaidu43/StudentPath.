@@ -1,6 +1,6 @@
 import Link from "next/link";
-import DeleteCareerButton from "@/components/DeleteCareerButton";
-import { supabase } from "@/lib/supabase";
+import DeleteCareerButton from "@/features/careers/admin/DeleteCareerButton";
+import { getAdminCareers } from "@/features/careers/admin-repository";
 import { createCareer } from "@/app/admin/actions";
 import CareersClient from "./CareersClient";
 
@@ -11,14 +11,7 @@ export default async function AdminCareersPage({
 }) {
   const { q } = await searchParams;
 
-  /* ── Supabase query (unchanged) ────── */
-  let query = supabase.from("careers").select("*").order("id");
-
-  if (q) {
-    query = query.ilike("title", `%${q}%`);
-  }
-
-  const { data: careers, error } = await query;
+  const { data: careers, error } = await getAdminCareers(q);
 
   if (error) {
     return (
@@ -28,7 +21,7 @@ export default async function AdminCareersPage({
     );
   }
 
-  /* ── Compute real statistics ───────── */
+  /* â”€â”€ Compute real statistics â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
   const total = careers?.length ?? 0;
   const categories = Array.from(
     new Set((careers || []).map((c: any) => c.category).filter(Boolean))
@@ -42,9 +35,9 @@ export default async function AdminCareersPage({
   return (
     <main className="min-h-screen text-white">
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           PAGE HEADER
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
 
       <header className="sticky top-0 z-40 border-b border-white/[0.07] bg-black/70 backdrop-blur-2xl">
         <div className="px-4 md:px-8 py-4 md:py-5 flex items-center justify-between gap-4">
@@ -83,19 +76,19 @@ export default async function AdminCareersPage({
         </div>
       </header>
 
-      {/* ══════════════════════════════════════
+      {/* â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•
           BODY
-      ══════════════════════════════════════ */}
+      â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â•â• */}
 
       <div className="p-4 md:p-6 lg:p-8">
 
-        {/* ── Statistics strip ─────────────── */}
+        {/* â”€â”€ Statistics strip â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */}
         <div className="grid grid-cols-2 md:grid-cols-4 gap-3 mb-6">
           {[
             { label: "Total Careers", value: total, accent: false },
             { label: "High Demand", value: highDemandCount, accent: highDemandCount > 0 },
             { label: "Categories", value: categories.length, accent: false },
-            { label: "Search Active", value: q ? `"${q}"` : "—", accent: !!q },
+            { label: "Search Active", value: q ? `"${q}"` : "â€”", accent: !!q },
           ].map((stat) => (
             <div
               key={stat.label}
@@ -114,7 +107,7 @@ export default async function AdminCareersPage({
           ))}
         </div>
 
-        {/* ── Client wrapper handles search, filter, sort, view ── */}
+        {/* â”€â”€ Client wrapper handles search, filter, sort, view â”€â”€ */}
         <CareersClient
           careers={careers || []}
           categories={categories}

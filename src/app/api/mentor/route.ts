@@ -10,8 +10,30 @@ req: Request
 
 try {
 
-const { messages } =
-  await req.json();
+const body: unknown = await req.json();
+if (!body || typeof body !== "object" || !("messages" in body)) {
+  return Response.json({ error: "Invalid request body" }, { status: 400 });
+}
+
+const messages = (body as { messages?: unknown }).messages;
+if (!Array.isArray(messages) || messages.length === 0 || messages.length > 20) {
+  return Response.json({ error: "messages must contain 1 to 20 items" }, { status: 400 });
+}
+
+for (const message of messages) {
+  if (!message || typeof message !== "object") {
+    return Response.json({ error: "Invalid message" }, { status: 400 });
+  }
+  const candidate = message as { role?: unknown; content?: unknown };
+  if (
+    (candidate.role !== "user" && candidate.role !== "assistant") ||
+    typeof candidate.content !== "string" ||
+    !candidate.content.trim() ||
+    candidate.content.length > 4000
+  ) {
+    return Response.json({ error: "Invalid message format" }, { status: 400 });
+  }
+}
 
 const recentMessages =
   messages.slice(-6);
@@ -40,8 +62,8 @@ Conversation:
 
 ${recentMessages
 .map(
-(m: any) =>
-"${m.role}: ${m.content}"
+(m: { role: string; content: string }) =>
+`${m.role}: ${m.content}`
 )
 .join("\n")}
 `;
@@ -83,10 +105,7 @@ console.error(
 );
 
 return Response.json(
-  {
-    reply:
-      "AI is temporarily unavailable. Please try again in a few moments.",
-  },
+  { error: "AI is temporarily unavailable. Please try again in a few moments." },
   {
     status: 500,
   }

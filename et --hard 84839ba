@@ -1,0 +1,29 @@
+[33mf1b9e39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{0}: pull origin main --rebase (finish): returning to refs/heads/main
+[33mf1b9e39[m[33m ([m[1;36mHEAD[m[33m -> [m[1;32mmain[m[33m, [m[1;31morigin/main[m[33m)[m HEAD@{1}: pull origin main --rebase (start): checkout f1b9e395696962ac6d39df5a9dcfebaf102df0fe
+[33m84839ba[m HEAD@{2}: commit: updated admin login
+[33m8f3f0a7[m HEAD@{3}: commit: Your commit message
+[33m2653fa9[m HEAD@{4}: commit: Your descriptive message
+[33m3594be5[m HEAD@{5}: commit: updated admin
+[33mf712434[m HEAD@{6}: commit: added ai
+[33mcf9c26f[m HEAD@{7}: commit: solve
+[33m40d3e46[m HEAD@{8}: commit: added search
+[33m96186a0[m HEAD@{9}: commit: created search bar
+[33m64dc072[m HEAD@{10}: commit: fixed all errors
+[33ma9ed8bb[m HEAD@{11}: commit: updated ux
+[33m4081a9b[m HEAD@{12}: commit: removed row exam
+[33m4b61996[m HEAD@{13}: commit: improved ui
+[33m557045e[m HEAD@{14}: commit: added favicon
+[33maacc7df[m HEAD@{15}: commit: updated cards design
+[33mfaca816[m HEAD@{16}: commit: updated layout
+[33m33c6330[m HEAD@{17}: commit: updated mobile interface
+[33m923c6b1[m HEAD@{18}: commit: added domain
+[33m0fcdef4[m HEAD@{19}: commit: updated login form
+[33m35ce652[m HEAD@{20}: commit: Mobile structure
+[33m0f9f583[m HEAD@{21}: commit: updated card layout
+[33m41b32f9[m HEAD@{22}: commit: card visiblity test
+[33m6034f81[m HEAD@{23}: commit: fixing auth
+[33m76eabf5[m HEAD@{24}: commit: auth solved
+[33m7dd0aad[m HEAD@{25}: commit: fixed production auth
+[33mddaec68[m HEAD@{26}: Branch: renamed refs/heads/master to refs/heads/main
+[33mddaec68[m HEAD@{28}: commit: Initial Studentpath deployment
+[33m560d4cc[m HEAD@{29}: commit (initial): Initial commit from Create Next App

@@ -40,7 +40,7 @@ export default function CTA() {
             </h2>
 
             <p className="mx-auto mt-6 max-w-xl text-lg sm:text-xl text-purple-100 leading-relaxed font-medium">
-              Join 120,000+ students who traded ‘I don't know’ for a plan they're genuinely excited about. Free to start — no credit card required.
+              Join 120,000+ students who traded â€˜I don't knowâ€™ for a plan they're genuinely excited about. Free to start â€” no credit card required.
             </p>
 
             <div className="mt-10 flex flex-col items-center justify-center gap-4 sm:flex-row">
@@ -56,7 +56,7 @@ export default function CTA() {
                 href="/mentor"
                 className="inline-flex w-full items-center justify-center rounded-2xl border border-white/40 bg-white/10 px-8 py-4 text-base font-bold text-white backdrop-blur-xl transition-all duration-300 hover:bg-white/20 hover:scale-105 sm:w-auto"
               >
-                🤖 Chat With AI Mentor
+                ðŸ¤– Chat With AI Mentor
               </Link>
             </div>
           </div>

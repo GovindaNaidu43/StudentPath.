@@ -1,5 +1,5 @@
-import { supabase } from "@/lib/supabase";
-import AdminCareerForm from "@/components/AdminCareerForm";
+import { supabase } from "@/lib/supabase/client";
+import AdminCareerForm from "@/features/careers/admin/AdminCareerForm";
 
 type PageProps = {
   params: Promise<{ id: string }>;
@@ -57,7 +57,7 @@ export default async function EditCareerPage({ params }: PageProps) {
       .eq("career_slug", career.slug),
   ]);
 
-  /* MERGE DATA — note: future_roles key must match what AdminCareerForm reads */
+  /* MERGE DATA ΓÇö note: future_roles key must match what AdminCareerForm reads */
   const careerWithData = {
     ...career,
     career_insights: insights || [],

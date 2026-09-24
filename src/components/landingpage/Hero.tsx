@@ -34,7 +34,7 @@ export default function Hero() {
 
           <p className="reveal mx-auto mt-6 max-w-xl text-lg leading-relaxed text-white/60" style={{ transitionDelay: "160ms" }}>
             Studentpath turns your interests, strengths, and curiosity into a
-            personalized map of careers to explore — with real roadmaps, mentors,
+            personalized map of careers to explore â€” with real roadmaps, mentors,
             and next steps built just for you.
           </p>
 

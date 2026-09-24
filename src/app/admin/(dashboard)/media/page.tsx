@@ -1,8 +1,8 @@
 "use client";
 
 import { useState, useRef } from "react";
-import AdminTopbar from "@/components/AdminTopbar";
-import { supabase } from "@/lib/supabase";
+import AdminTopbar from "@/components/navigation/AdminTopbar";
+import { supabase } from "@/lib/supabase/client";
 import {
   Upload,
   Trash2,
@@ -31,15 +31,11 @@ export default function AdminMediaPage() {
 
   async function loadFiles() {
     setLoading(true);
-    const { data, error } = await supabase.storage
-      .from("career-media")
-      .list("", {
-        limit: 200,
-        sortBy: { column: "updated_at", order: "desc" },
-      });
+    const response = await fetch("/api/admin/media");
+    const result = await response.json();
 
-    if (!error && data) {
-      setFiles(data as MediaFile[]);
+    if (response.ok && result.files) {
+      setFiles(result.files as MediaFile[]);
     }
     setLoading(false);
     setLoaded(true);
@@ -50,13 +46,14 @@ export default function AdminMediaPage() {
     if (!file) return;
 
     setUploading(true);
-    const fileName = `${Date.now()}-${file.name}`;
+    const formData = new FormData();
+    formData.append("file", file, `${Date.now()}-${file.name}`);
+    const response = await fetch("/api/admin/media", {
+      method: "POST",
+      body: formData,
+    });
 
-    const { error } = await supabase.storage
-      .from("career-media")
-      .upload(fileName, file);
-
-    if (!error) {
+    if (response.ok) {
       await loadFiles();
     }
     setUploading(false);
@@ -64,11 +61,13 @@ export default function AdminMediaPage() {
   }
 
   async function handleDelete(fileName: string) {
-    const { error } = await supabase.storage
-      .from("career-media")
-      .remove([fileName]);
+    const response = await fetch("/api/admin/media", {
+      method: "DELETE",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ name: fileName }),
+    });
 
-    if (!error) {
+    if (response.ok) {
       setFiles((prev) => prev.filter((f) => f.name !== fileName));
     }
     setDeleteConfirm(null);
@@ -93,7 +92,7 @@ export default function AdminMediaPage() {
   }
 
   function formatSize(bytes?: number) {
-    if (!bytes) return "—";
+    if (!bytes) return "â€”";
     if (bytes < 1024) return `${bytes} B`;
     if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(1)} KB`;
     return `${(bytes / 1024 / 1024).toFixed(1)} MB`;
@@ -288,7 +287,7 @@ export default function AdminMediaPage() {
                           rel="noopener noreferrer"
                           className="text-xs text-zinc-400 hover:text-white transition"
                         >
-                          Open ↗
+                          Open â†—
                         </a>
                       </div>
                     </div>
@@ -297,7 +296,7 @@ export default function AdminMediaPage() {
               </div>
             ) : (
               <div className="text-center py-24">
-                <div className="text-5xl mb-6">🎬</div>
+                <div className="text-5xl mb-6">ðŸŽ¬</div>
                 <h3 className="text-2xl font-black mb-3">No media files</h3>
                 <p className="text-zinc-500">
                   Upload images or videos to get started.

@@ -1,4 +1,4 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import { updateExam } from "@/app/admin/actions";
 import Link from "next/link";
 
@@ -33,7 +33,7 @@ export default async function EditExamPage({ params }: PageProps) {
           href="/admin/exams"
           className="inline-flex items-center gap-2 text-zinc-400 hover:text-white transition mb-8 text-sm"
         >
-          ← Back to Exams
+          ΓåÉ Back to Exams
         </Link>
 
         <p className="uppercase tracking-[0.4em] text-cyan-400 text-xs mb-4">

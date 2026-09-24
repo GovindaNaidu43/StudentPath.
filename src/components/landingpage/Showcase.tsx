@@ -7,7 +7,7 @@ const steps = [
   {
     step: "01",
     title: "Discover What Drives You",
-    desc: "Answer thoughtful, adaptive questions. No pressure, no wrong answers — just deep insight into how you think and what energizes your mind.",
+    desc: "Answer thoughtful, adaptive questions. No pressure, no wrong answers â€” just deep insight into how you think and what energizes your mind.",
     points: ["Adaptive interest & aptitude assessment", "Personality & values profile", "Instant self-discovery report"],
     img: "/images/dashboard.png",
     alt: "Interest discovery assessment dashboard",
@@ -42,7 +42,7 @@ export default function Showcase() {
           className="mx-auto max-w-3xl text-center"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-fuchsia-400/50 bg-fuchsia-500/10 px-5 py-2 text-xs font-black uppercase tracking-wider text-fuchsia-300 shadow-[0_0_25px_rgba(217,70,239,0.35)]">
-            🚀 Simple 3-Step Journey
+            ðŸš€ Simple 3-Step Journey
           </span>
           <h2 className="mt-5 font-display text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl leading-tight">
             Your path, in three{" "}
@@ -125,7 +125,7 @@ export default function Showcase() {
               </h3>
 
               <p className="mt-4 text-lg leading-relaxed text-zinc-300">
-                Every career becomes an actionable plan. Complete milestones, unlock real skills, and watch your readiness score grow — with an AI coach in your corner.
+                Every career becomes an actionable plan. Complete milestones, unlock real skills, and watch your readiness score grow â€” with an AI coach in your corner.
               </p>
 
               <ul className="mt-7 space-y-3.5">

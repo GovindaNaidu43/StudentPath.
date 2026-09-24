@@ -14,7 +14,7 @@ const benefits = [
   {
     icon: Shield,
     title: "Zero Pressure, All Support",
-    desc: "Explore freely and change your mind anytime. There are no wrong turns — only exciting new paths to discover.",
+    desc: "Explore freely and change your mind anytime. There are no wrong turns â€” only exciting new paths to discover.",
     glow: "border-fuchsia-200 hover:border-fuchsia-400 hover:shadow-[0_10px_35px_rgba(217,70,239,0.25)]",
     iconGrad: "from-fuchsia-500 to-pink-500",
   },
@@ -28,7 +28,7 @@ const benefits = [
   {
     icon: Sparkle,
     title: "Made Just For You",
-    desc: "Every recommendation adapts to your interests, grade level, and goals — no generic template advice ever.",
+    desc: "Every recommendation adapts to your interests, grade level, and goals â€” no generic template advice ever.",
     glow: "border-purple-200 hover:border-purple-400 hover:shadow-[0_10px_35px_rgba(168,85,247,0.25)]",
     iconGrad: "from-purple-500 to-indigo-500",
   },
@@ -50,7 +50,7 @@ export default function Benefits() {
             transition={{ duration: 0.7 }}
           >
             <span className="inline-flex items-center gap-2 rounded-full border border-pink-300 bg-pink-100 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-pink-800 shadow-xs">
-              💎 Why Students Choose Us
+              ðŸ’Ž Why Students Choose Us
             </span>
 
             <h2 className="mt-5 font-display text-4xl font-black leading-tight tracking-tight text-slate-900 sm:text-5xl">
@@ -66,10 +66,10 @@ export default function Benefits() {
 
             <div className="mt-8 flex flex-wrap gap-3">
               {[
-                { label: "⚡ No credit card required", color: "border-fuchsia-300 bg-fuchsia-100/80 text-fuchsia-800" },
-                { label: "✨ Free forever plan", color: "border-cyan-300 bg-cyan-100/80 text-cyan-800" },
-                { label: "🔒 Privacy first", color: "border-emerald-300 bg-emerald-100/80 text-emerald-800" },
-                { label: "🎯 100% Student-centric", color: "border-amber-300 bg-amber-100/80 text-amber-800" },
+                { label: "âš¡ No credit card required", color: "border-fuchsia-300 bg-fuchsia-100/80 text-fuchsia-800" },
+                { label: "âœ¨ Free forever plan", color: "border-cyan-300 bg-cyan-100/80 text-cyan-800" },
+                { label: "ðŸ”’ Privacy first", color: "border-emerald-300 bg-emerald-100/80 text-emerald-800" },
+                { label: "ðŸŽ¯ 100% Student-centric", color: "border-amber-300 bg-amber-100/80 text-amber-800" },
               ].map((pill) => (
                 <span
                   key={pill.label}

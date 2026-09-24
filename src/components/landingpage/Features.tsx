@@ -25,7 +25,7 @@ const features = [
   {
     icon: Route,
     title: "Personalized Roadmaps",
-    desc: "Turn any career into a step-by-step plan — courses, projects, and milestones tailored to your grade level.",
+    desc: "Turn any career into a step-by-step plan â€” courses, projects, and milestones tailored to your grade level.",
     cardGlow: "from-pink-100/80 via-rose-50/50 to-transparent",
     borderGlow: "border-pink-200 hover:border-pink-400 hover:shadow-[0_10px_35px_rgba(244,114,182,0.2)]",
     badgeColor: "bg-pink-100 text-pink-700 border-pink-300",
@@ -52,7 +52,7 @@ const features = [
   {
     icon: Chat,
     title: "24/7 AI Career Coach",
-    desc: "Ask anything — from ‘what can I do with biology?’ to essay help — and get instant, grounded guidance.",
+    desc: "Ask anything â€” from â€˜what can I do with biology?â€™ to essay help â€” and get instant, grounded guidance.",
     cardGlow: "from-violet-100/80 via-indigo-50/50 to-transparent",
     borderGlow: "border-violet-200 hover:border-violet-400 hover:shadow-[0_10px_35px_rgba(167,139,250,0.2)]",
     badgeColor: "bg-violet-100 text-violet-700 border-violet-300",
@@ -76,7 +76,7 @@ export default function Features() {
           className="mx-auto max-w-3xl text-center"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-cyan-300 bg-cyan-100 px-4 py-1.5 text-xs font-black uppercase tracking-wider text-cyan-800 shadow-sm">
-            ✨ Supercharged Tools
+            âœ¨ Supercharged Tools
           </span>
 
           <h2 className="mt-5 font-display text-4xl font-black tracking-tight text-slate-900 sm:text-5xl md:text-6xl leading-tight">
@@ -87,7 +87,7 @@ export default function Features() {
           </h2>
 
           <p className="mt-5 text-lg sm:text-xl text-slate-600 leading-relaxed font-medium">
-            From ‘I have no idea’ to a clear, confident direction — StudentPath gives you the superpowers traditional guidance never could.
+            From â€˜I have no ideaâ€™ to a clear, confident direction â€” StudentPath gives you the superpowers traditional guidance never could.
           </p>
         </motion.div>
 

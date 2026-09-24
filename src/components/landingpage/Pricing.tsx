@@ -33,7 +33,7 @@ const plans = [
       "Progress tracking & streak rewards",
       "Real-time market & demand data",
     ],
-    cta: "Start 7-Day Free Trial ✦",
+    cta: "Start 7-Day Free Trial âœ¦",
     highlight: true,
     badgeColor: "text-fuchsia-300 border-fuchsia-500/40 bg-fuchsia-500/10",
   },
@@ -73,7 +73,7 @@ export default function Pricing() {
           className="mx-auto max-w-3xl text-center"
         >
           <span className="inline-flex items-center gap-2 rounded-full border border-fuchsia-400/40 bg-fuchsia-400/10 px-5 py-2 text-xs font-bold uppercase tracking-wider text-fuchsia-300 shadow-[0_0_20px_rgba(217,70,239,0.3)]">
-            💎 Simple & Transparent Pricing
+            ðŸ’Ž Simple & Transparent Pricing
           </span>
 
           <h2 className="mt-5 font-display text-4xl font-black tracking-tight text-white sm:text-5xl md:text-6xl leading-tight">
@@ -134,7 +134,7 @@ export default function Pricing() {
               >
                 {p.highlight && (
                   <span className="absolute -top-4 left-1/2 -translate-x-1/2 rounded-full bg-gradient-to-r from-fuchsia-500 via-purple-500 to-cyan-400 px-5 py-1 text-xs font-black uppercase tracking-widest text-white shadow-[0_0_25px_rgba(217,70,239,0.6)]">
-                    ⚡ Most Popular Choice
+                    âš¡ Most Popular Choice
                   </span>
                 )}
 

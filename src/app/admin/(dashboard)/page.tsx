@@ -1,9 +1,9 @@
-import { supabase } from "@/lib/supabase";
+import { supabase } from "@/lib/supabase/client";
 import Link from "next/link";
 
 export default async function AdminPage() {
 
-  /* ── Live stats from Supabase ─────────────────── */
+  /* â”€â”€ Live stats from Supabase â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
   const [
     { count: careerCount },
@@ -31,7 +31,7 @@ export default async function AdminPage() {
     {
       title: "Total Careers",
       value: careerCount ?? 0,
-      icon: "🚀",
+      icon: "ðŸš€",
       href: "/admin/careers",
       color: "from-fuchsia-500/20 to-fuchsia-500/5",
       border: "border-fuchsia-500/20",
@@ -39,7 +39,7 @@ export default async function AdminPage() {
     {
       title: "Total Exams",
       value: examCount ?? 0,
-      icon: "📝",
+      icon: "ðŸ“",
       href: "/admin/exams",
       color: "from-cyan-500/20 to-cyan-500/5",
       border: "border-cyan-500/20",
@@ -47,7 +47,7 @@ export default async function AdminPage() {
     {
       title: "Media Files",
       value: mediaCount,
-      icon: "🎬",
+      icon: "ðŸŽ¬",
       href: "/admin/media",
       color: "from-violet-500/20 to-violet-500/5",
       border: "border-violet-500/20",
@@ -55,7 +55,7 @@ export default async function AdminPage() {
     {
       title: "AI Engine",
       value: "Active",
-      icon: "🤖",
+      icon: "ðŸ¤–",
       href: "/admin/ai",
       color: "from-emerald-500/20 to-emerald-500/5",
       border: "border-emerald-500/20",
@@ -67,31 +67,31 @@ export default async function AdminPage() {
       title: "Careers",
       desc: "Manage career pages, media, and all content sections.",
       href: "/admin/careers",
-      icon: "🚀",
+      icon: "ðŸš€",
     },
     {
       title: "Exams",
       desc: "Add, edit and remove exam listings across all categories.",
       href: "/admin/exams",
-      icon: "📝",
+      icon: "ðŸ“",
     },
     {
       title: "Media Studio",
       desc: "Browse, upload and manage all images and videos.",
       href: "/admin/media",
-      icon: "🎬",
+      icon: "ðŸŽ¬",
     },
     {
       title: "AI Engine",
       desc: "Test the Gemini AI integration and monitor prompts.",
       href: "/admin/ai",
-      icon: "🤖",
+      icon: "ðŸ¤–",
     },
     {
       title: "Settings",
       desc: "Configure site name, admin profile, and global settings.",
       href: "/admin/settings",
-      icon: "⚙️",
+      icon: "âš™ï¸",
     },
   ];
 
@@ -131,7 +131,7 @@ export default async function AdminPage() {
               {item.value}
             </h2>
             <div className="absolute top-4 right-4 text-zinc-600 group-hover:translate-x-1 transition">
-              →
+              â†’
             </div>
           </Link>
         ))}
@@ -162,7 +162,7 @@ export default async function AdminPage() {
                   {item.desc}
                 </p>
                 <div className="mt-4 text-fuchsia-400 text-sm group-hover:translate-x-1 transition inline-block">
-                  Open →
+                  Open â†’
                 </div>
               </div>
             </Link>
@@ -194,7 +194,7 @@ export default async function AdminPage() {
                   </p>
                 </div>
                 <span className="text-fuchsia-400 text-xs group-hover:translate-x-1 transition">
-                  Edit →
+                  Edit â†’
                 </span>
               </Link>
             ))}

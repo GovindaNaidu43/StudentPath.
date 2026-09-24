@@ -7,7 +7,7 @@ export const careers = [
     tagline:
       "Build the intelligence shaping the future.",
 
-    salary: "₹18L - ₹60L",
+    salary: "â‚¹18L - â‚¹60L",
 
     demand: "+42% Growth",
 

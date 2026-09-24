@@ -1,0 +1,153 @@
+{
+  "project": {
+    "name": "StudentPath",
+    "ref": "hiattulermsyqejkgloo",
+    "url": "https://hiattulermsyqejkgloo.supabase.co",
+    "schema": "public",
+    "status": "VERIFIED"
+  },
+  "source": {
+    "kind": "authenticated Supabase Dashboard plus repository audit",
+    "migration_history": "UNVERIFIED / NOT CAPTURED: live migration history was not captured in the local evidence set",
+    "repository_migration_directory": "VERIFIED: no prior source-controlled Supabase migration directory was present",
+    "complete_ddl_dump": "UNVERIFIED: not captured",
+    "generated_types": "NOT_GENERATED: complete live column metadata was not captured"
+  },
+  "authentication": {
+    "email": "VERIFIED: enabled",
+    "google": "VERIFIED: enabled",
+    "sign_ups": "VERIFIED: enabled",
+    "email_confirmation": "VERIFIED: enabled",
+    "callback_before_phase_1": "VERIFIED: /auth/callback was missing",
+    "callback_after_phase_1": "VERIFIED: Phase 1 added the application callback route",
+    "redirect_allow_list": "UNVERIFIED / NOT CAPTURED"
+  },
+  "tables": {
+    "careers": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": [
+        "id",
+        "title",
+        "slug",
+        "category",
+        "description",
+        "salary",
+        "demand",
+        "difficulty",
+        "future_scope",
+        "hero_image",
+        "hero_video",
+        "primary_color",
+        "secondary_color",
+        "universe_nodes",
+        "paths"
+      ],
+      "column_types_defaults_nullability": "UNVERIFIED: complete metadata not captured",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: child tables use career_slug -> careers.slug"
+    },
+    "career_insights": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["id", "career_slug", "small_heading", "title", "short_description", "deep_details", "card_order", "position", "tags"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: career_slug -> careers.slug"
+    },
+    "career_why_exists": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["career_slug", "heading", "content", "display_order"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: career_slug -> careers.slug"
+    },
+    "career_scenes": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["career_slug", "title", "description", "image_url", "display_order"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: career_slug -> careers.slug"
+    },
+    "career_path_steps": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["career_slug", "heading", "percentage", "short_description", "display_order"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: career_slug -> careers.slug"
+    },
+    "career_future_roles": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["career_slug", "role_name", "short_description", "image_url"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: career_slug -> careers.slug"
+    },
+    "exams": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["id", "title", "slug", "category", "description", "exam_date", "registration_link", "official_website", "eligibility", "difficulty", "created_at"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED: slug uniqueness is not proven",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: exam_details.exam_id -> exams.id"
+    },
+    "exam_details": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["exam_id", "overview", "qualification", "stream_requirement", "attempts", "age_limit", "roadmap", "competition_reality"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: exam_id -> exams.id"
+    },
+    "profiles": {
+      "status": "VERIFIED: table present in live public schema",
+      "observed_columns": ["id", "role"],
+      "column_types_defaults_nullability": "UNVERIFIED",
+      "constraints": "UNVERIFIED: profiles.id -> auth.users.id is not confirmed as a database FK",
+      "indexes": "UNVERIFIED",
+      "relationships": "APPLICATION-LEVEL ASSUMPTION: id corresponds to auth.users.id; roles observed by app are admin and student"
+    },
+    "site_settings": {
+      "status": "VERIFIED MISSING from live public table inventory",
+      "observed_columns": [],
+      "constraints": "NOT APPLICABLE",
+      "indexes": "NOT APPLICABLE",
+      "relationships": "NOT APPLICABLE"
+    }
+  },
+  "database_objects": {
+    "primary_keys": "UNVERIFIED",
+    "unique_constraints": "UNVERIFIED",
+    "check_constraints": "UNVERIFIED",
+    "foreign_keys": "UNVERIFIED",
+    "indexes": "UNVERIFIED",
+    "functions": "UNVERIFIED",
+    "triggers": "UNVERIFIED",
+    "trigger_function_bodies_and_security_modes": "UNVERIFIED",
+    "rls_policies": "UNVERIFIED; do not infer",
+    "storage_policies": "UNVERIFIED; do not infer"
+  },
+  "storage": {
+    "career-media": {
+      "status": "VERIFIED: bucket exists",
+      "visibility": "VERIFIED: public",
+      "file_size_limit": "VERIFIED: Dashboard displays Unset (50 MB)",
+      "mime_restrictions": "VERIFIED: Any",
+      "policies": "UNVERIFIED: Dashboard displayed 2 policies but not their definitions"
+    }
+  },
+  "prohibited_in_phase_2a": [
+    "create tables",
+    "alter tables",
+    "change data",
+    "create migrations that assume unverified DDL",
+    "modify RLS",
+    "modify Storage policies",
+    "create site_settings",
+    "redesign relationships"
+  ]
+}

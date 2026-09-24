@@ -1,6 +1,6 @@
 "use client";
 
-import AdminTopbar from "@/components/AdminTopbar";
+import AdminTopbar from "@/components/navigation/AdminTopbar";
 import { useState } from "react";
 import {
   BrainCircuit,
@@ -42,7 +42,7 @@ export default function AdminAIPage() {
       }
     } catch {
       setApiStatus("error");
-      setError("Network error — check API route");
+      setError("Network error â€” check API route");
     }
   }
 
@@ -173,7 +173,7 @@ export default function AdminAIPage() {
                   onClick={() => setPrompt(ex)}
                   className="text-xs px-4 py-2 rounded-full border border-white/10 bg-white/5 hover:bg-white/10 transition text-zinc-300 text-left"
                 >
-                  {ex.length > 50 ? ex.slice(0, 50) + "…" : ex}
+                  {ex.length > 50 ? ex.slice(0, 50) + "â€¦" : ex}
                 </button>
               ))}
             </div>
@@ -255,7 +255,7 @@ export default function AdminAIPage() {
         {/* INFO BOX */}
         <div className="mt-8 rounded-2xl border border-white/10 bg-white/[0.03] p-6 text-sm text-zinc-500">
           <p className="font-semibold text-zinc-300 mb-2">
-            💡 How to use the AI in career pages
+            ðŸ’¡ How to use the AI in career pages
           </p>
           <p>
             The AI API route is at{" "}

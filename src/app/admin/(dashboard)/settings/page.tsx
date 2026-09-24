@@ -1,10 +1,11 @@
-import AdminTopbar from "@/components/AdminTopbar";
-import { supabase } from "@/lib/supabase";
+import AdminTopbar from "@/components/navigation/AdminTopbar";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
 import { saveSettings } from "@/app/admin/actions";
 
 export default async function AdminSettingsPage() {
 
-  /* Try to load settings — table may not exist yet */
+  /* Try to load settings â€” table may not exist yet */
+  const supabase = await createSupabaseServerClient();
   const { data: settings } = await supabase
     .from("site_settings")
     .select("*")
@@ -20,26 +21,13 @@ export default async function AdminSettingsPage() {
 
       <div className="p-4 md:p-8 lg:p-12 max-w-4xl">
 
-        {/* SQL notice if settings table doesn't exist */}
+        {/* The live schema does not currently contain this table. */}
         {!settings && (
           <div className="rounded-2xl border border-amber-500/30 bg-amber-500/10 p-6 mb-8 text-amber-300 text-sm">
-            <p className="font-semibold mb-2">⚠️ Settings table not found</p>
+            <p className="font-semibold mb-2">Settings table not found</p>
             <p className="mb-3">
-              Run this SQL in your Supabase dashboard to enable settings:
+              Settings are unavailable until the database foundation phase adds this dependency.
             </p>
-            <pre className="bg-black/40 rounded-xl p-4 text-xs overflow-x-auto">
-{`create table site_settings (
-  id bigint generated always as identity primary key,
-  site_name text default 'StudentPath',
-  admin_name text default 'Admin',
-  contact_email text default '',
-  tagline text default '',
-  updated_at timestamptz default now()
-);
-
--- Insert default row:
-insert into site_settings (id, site_name) overriding system value values (1, 'StudentPath');`}
-            </pre>
           </div>
         )}
 
@@ -150,12 +138,12 @@ insert into site_settings (id, site_name) overriding system value values (1, 'St
                   },
                   {
                     label: "SUPABASE_ANON_KEY",
-                    value: "eyJhbGci••••••••••••",
+                    value: "eyJhbGciâ€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢",
                     status: "connected",
                   },
                   {
                     label: "GEMINI_API_KEY",
-                    value: "AQ.Ab8RN•••••••••",
+                    value: "AQ.Ab8RNâ€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢â€¢",
                     status: "configured",
                   },
                 ].map((env) => (
@@ -191,9 +179,11 @@ insert into site_settings (id, site_name) overriding system value values (1, 'St
             <div className="flex items-center gap-4 rounded-[28px] border border-white/10 bg-black/80 backdrop-blur-2xl p-4 shadow-[0_0_50px_rgba(217,70,239,0.25)]">
               <button
                 type="submit"
+                disabled={!settings}
                 className="
                   px-8 py-4 rounded-2xl
                   bg-fuchsia-600 hover:bg-fuchsia-500
+                  disabled:cursor-not-allowed disabled:opacity-40
                   transition-all duration-300
                   font-semibold text-lg
                   shadow-[0_0_30px_rgba(217,70,239,0.4)]

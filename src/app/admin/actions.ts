@@ -1,14 +1,30 @@
 "use server";
 
-import { supabase } from "@/lib/supabase";
+import { createSupabaseServerClient } from "@/lib/supabase/server";
+import { requireAdmin } from "@/lib/auth/authorization";
+import { idValue, jsonArrayValue, textValue } from "@/lib/server-validation";
+import {
+  deleteCareer as deleteCareerWorkflow,
+  updateCareer as updateCareerWorkflow,
+  type CareerUpdateInput,
+} from "@/features/careers/service";
 import { revalidatePath } from "next/cache";
 import { redirect } from "next/navigation";
 
-/* ─────────────────────────────────────────
+function ensureDatabaseOperation(operation: string, error: { message: string } | null) {
+  if (error) {
+    console.error(`Admin database operation failed: ${operation}`, error);
+    throw new Error(`Unable to ${operation}`);
+  }
+}
+
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    CAREERS
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function createCareer() {
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("careers")
     .insert({
@@ -16,7 +32,7 @@ export async function createCareer() {
       slug: "new-career-" + Date.now(),
       category: "Future Careers",
       description: "New career description",
-      salary: "₹5L - ₹20L",
+      salary: "â‚¹5L - â‚¹20L",
       demand: "Growing",
       difficulty: "Medium",
       future_scope: "Excellent",
@@ -31,7 +47,7 @@ export async function createCareer() {
     .single();
 
   if (error) {
-    throw new Error("Failed to create career: " + error.message);
+    ensureDatabaseOperation("create career", error);
   }
 
   revalidatePath("/admin/careers");
@@ -39,190 +55,55 @@ export async function createCareer() {
 }
 
 export async function updateCareer(formData: FormData) {
-  const id = formData.get("id") as string;
-  const title = formData.get("title") as string;
-  const slug = formData.get("slug") as string;
-  const category = formData.get("category") as string;
-  const salary = formData.get("salary") as string;
-  const demand = formData.get("demand") as string;
-  const difficulty = formData.get("difficulty") as string;
-  const description = formData.get("description") as string;
-  const hero_image = formData.get("hero_image") as string;
-  const hero_video = formData.get("hero_video") as string;
-  const primary_color = formData.get("primary_color") as string;
-  const secondary_color = formData.get("secondary_color") as string;
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
+  const id = idValue(formData.get("id"));
+  const title = textValue(formData.get("title"), "title", 200);
+  const slug = textValue(formData.get("slug"), "slug", 200);
+  const category = textValue(formData.get("category"), "category", 100);
+  const salary = textValue(formData.get("salary"), "salary", 200);
+  const demand = textValue(formData.get("demand"), "demand", 100);
+  const difficulty = textValue(formData.get("difficulty"), "difficulty", 100);
+  const description = textValue(formData.get("description"), "description", 10000);
+  const hero_image = textValue(formData.get("hero_image"), "hero_image", 2000);
+  const hero_video = textValue(formData.get("hero_video"), "hero_video", 2000);
+  const primary_color = textValue(formData.get("primary_color"), "primary_color", 20);
+  const secondary_color = textValue(formData.get("secondary_color"), "secondary_color", 20);
+  const input: CareerUpdateInput = {
+    id,
+    title,
+    slug,
+    category,
+    salary,
+    demand,
+    difficulty,
+    description,
+    hero_image,
+    hero_video,
+    primary_color,
+    secondary_color,
+    insights: jsonArrayValue(formData.get("insights"), "insights") as CareerUpdateInput["insights"],
+    whyExists: jsonArrayValue(formData.get("whyExists"), "whyExists") as CareerUpdateInput["whyExists"],
+    scenes: jsonArrayValue(formData.get("scenes"), "scenes") as CareerUpdateInput["scenes"],
+    pathSteps: jsonArrayValue(formData.get("pathSteps"), "pathSteps") as CareerUpdateInput["pathSteps"],
+    futureRoles: jsonArrayValue(formData.get("future_roles"), "future_roles") as CareerUpdateInput["futureRoles"],
+  };
 
-  const insights = JSON.parse(
-    (formData.get("insights") as string) || "[]"
-  );
-  const whyExists = JSON.parse(
-    (formData.get("whyExists") as string) || "[]"
-  );
-  const scenes = JSON.parse(
-    (formData.get("scenes") as string) || "[]"
-  );
-  const pathSteps = JSON.parse(
-    (formData.get("pathSteps") as string) || "[]"
-  );
-  const futureRoles = JSON.parse(
-    (formData.get("future_roles") as string) || "[]"
-  );
-
-  /* UPDATE CORE CAREER ROW */
-  const { error } = await supabase
-    .from("careers")
-    .update({
-      title,
-      slug,
-      category,
-      salary,
-      demand,
-      difficulty,
-      description,
-      hero_image,
-      hero_video,
-      primary_color,
-      secondary_color,
-    })
-    .eq("id", id);
-
-  if (error) {
-    throw new Error("Failed to update career: " + error.message);
-  }
-
-  /* ── INSIGHTS ─────────────────────── */
-  await supabase
-    .from("career_insights")
-    .delete()
-    .eq("career_slug", slug);
-
-  if (insights.length > 0) {
-    const formattedInsights = insights.map(
-      (insight: any, index: number) => ({
-        career_slug: slug,
-        small_heading: insight.small_heading,
-        title: insight.title,
-        short_description: insight.short_description,
-        deep_details: insight.deep_details,
-        card_order: index + 1,
-      })
-    );
-
-    await supabase.from("career_insights").insert(formattedInsights);
-  }
-
-  /* ── WHY EXISTS ───────────────────── */
-  await supabase
-    .from("career_why_exists")
-    .delete()
-    .eq("career_slug", slug);
-
-  if (whyExists.length > 0) {
-    const formattedWhyExists = whyExists.map(
-      (block: any, index: number) => ({
-        career_slug: slug,
-        heading: block.heading,
-        content: block.content,
-        display_order: index + 1,
-      })
-    );
-
-    await supabase.from("career_why_exists").insert(formattedWhyExists);
-  }
-
-  /* ── SCENES ───────────────────────── */
-  await supabase
-    .from("career_scenes")
-    .delete()
-    .eq("career_slug", slug);
-
-  if (scenes.length > 0) {
-    const formattedScenes = scenes.map(
-      (scene: any, index: number) => ({
-        career_slug: slug,
-        title: scene.title,
-        description: scene.description,
-        image_url: scene.image_url,
-        display_order: index + 1,
-      })
-    );
-
-    await supabase.from("career_scenes").insert(formattedScenes);
-  }
-
-  /* ── PATH STEPS ───────────────────── */
-  await supabase
-    .from("career_path_steps")
-    .delete()
-    .eq("career_slug", slug);
-
-  if (pathSteps.length > 0) {
-    const formattedSteps = pathSteps.map(
-      (step: any, index: number) => ({
-        career_slug: slug,
-        heading: step.heading,
-        percentage: step.percentage,
-        short_description: step.short_description,
-        display_order: index + 1,
-      })
-    );
-
-    await supabase.from("career_path_steps").insert(formattedSteps);
-  }
-
-  /* ── FUTURE ROLES ─────────────────── */
-  await supabase
-    .from("career_future_roles")
-    .delete()
-    .eq("career_slug", slug);
-
-  if (futureRoles.length > 0) {
-    const formattedRoles = futureRoles.map((role: any) => ({
-      career_slug: slug,
-      role_name: role.role_name,
-      short_description: role.short_description,
-      image_url: role.image_url,
-    }));
-
-    await supabase.from("career_future_roles").insert(formattedRoles);
-  }
+  await updateCareerWorkflow(supabase, input);
 
   revalidatePath("/");
   revalidatePath("/explore");
   revalidatePath(`/career/${slug}`);
   revalidatePath("/admin/careers");
-
-  redirect("/admin/careers");
+  revalidatePath(`/admin/careers/${id}`);
+  // No redirect â€” stay on the editor so the save status indicator can show.
 }
 
 export async function deleteCareer(id: string) {
-  /* First fetch the slug so we can delete related rows */
-  const { data: career } = await supabase
-    .from("careers")
-    .select("slug")
-    .eq("id", id)
-    .single();
-
-  if (career?.slug) {
-    const slug = career.slug;
-
-    await Promise.all([
-      supabase.from("career_insights").delete().eq("career_slug", slug),
-      supabase.from("career_why_exists").delete().eq("career_slug", slug),
-      supabase.from("career_scenes").delete().eq("career_slug", slug),
-      supabase.from("career_path_steps").delete().eq("career_slug", slug),
-      supabase.from("career_future_roles").delete().eq("career_slug", slug),
-    ]);
-  }
-
-  const { error } = await supabase
-    .from("careers")
-    .delete()
-    .eq("id", id);
-
-  if (error) {
-    throw new Error("Failed to delete career: " + error.message);
-  }
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) throw new Error("Invalid career id");
+  await deleteCareerWorkflow(supabase, id);
 
   revalidatePath("/admin/careers");
   revalidatePath("/");
@@ -231,7 +112,7 @@ export async function deleteCareer(id: string) {
   redirect("/admin/careers");
 }
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    EXAMS
    
    Required Supabase SQL (run if table doesn't exist):
@@ -249,9 +130,11 @@ export async function deleteCareer(id: string) {
      difficulty text default 'Medium',
      created_at timestamptz default now()
    );
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function createExam() {
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
   const { data, error } = await supabase
     .from("exams")
     .insert({
@@ -265,7 +148,7 @@ export async function createExam() {
     .single();
 
   if (error) {
-    throw new Error("Failed to create exam: " + error.message);
+    ensureDatabaseOperation("create exam", error);
   }
 
   revalidatePath("/admin/exams");
@@ -273,16 +156,18 @@ export async function createExam() {
 }
 
 export async function updateExam(formData: FormData) {
-  const id = formData.get("id") as string;
-  const title = formData.get("title") as string;
-  const slug = formData.get("slug") as string;
-  const category = formData.get("category") as string;
-  const description = formData.get("description") as string;
-  const exam_date = formData.get("exam_date") as string;
-  const registration_link = formData.get("registration_link") as string;
-  const official_website = formData.get("official_website") as string;
-  const eligibility = formData.get("eligibility") as string;
-  const difficulty = formData.get("difficulty") as string;
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
+  const id = idValue(formData.get("id"));
+  const title = textValue(formData.get("title"), "title", 200);
+  const slug = textValue(formData.get("slug"), "slug", 200);
+  const category = textValue(formData.get("category"), "category", 100);
+  const description = textValue(formData.get("description"), "description", 10000);
+  const exam_date = textValue(formData.get("exam_date"), "exam_date", 100);
+  const registration_link = textValue(formData.get("registration_link"), "registration_link", 2000);
+  const official_website = textValue(formData.get("official_website"), "official_website", 2000);
+  const eligibility = textValue(formData.get("eligibility"), "eligibility", 5000);
+  const difficulty = textValue(formData.get("difficulty"), "difficulty", 100);
 
   const { error } = await supabase
     .from("exams")
@@ -300,7 +185,7 @@ export async function updateExam(formData: FormData) {
     .eq("id", id);
 
   if (error) {
-    throw new Error("Failed to update exam: " + error.message);
+    ensureDatabaseOperation("update exam", error);
   }
 
   revalidatePath("/admin/exams");
@@ -308,20 +193,23 @@ export async function updateExam(formData: FormData) {
 }
 
 export async function deleteExam(id: string) {
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
+  if (!/^[a-zA-Z0-9_-]+$/.test(id)) throw new Error("Invalid exam id");
   const { error } = await supabase
     .from("exams")
     .delete()
     .eq("id", id);
 
   if (error) {
-    throw new Error("Failed to delete exam: " + error.message);
+    ensureDatabaseOperation("delete exam", error);
   }
 
   revalidatePath("/admin/exams");
   redirect("/admin/exams");
 }
 
-/* ─────────────────────────────────────────
+/* â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€
    SITE SETTINGS
    
    Required Supabase SQL (run if table doesn't exist):
@@ -338,15 +226,17 @@ export async function deleteExam(id: string) {
    
    -- Insert default row:
    insert into site_settings (site_name) values ('StudentPath');
-───────────────────────────────────────── */
+â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€â”€ */
 
 export async function saveSettings(formData: FormData) {
-  const site_name = formData.get("site_name") as string;
-  const admin_name = formData.get("admin_name") as string;
-  const contact_email = formData.get("contact_email") as string;
-  const tagline = formData.get("tagline") as string;
+  await requireAdmin();
+  const supabase = await createSupabaseServerClient();
+  const site_name = textValue(formData.get("site_name"), "site_name", 200);
+  const admin_name = textValue(formData.get("admin_name"), "admin_name", 200);
+  const contact_email = textValue(formData.get("contact_email"), "contact_email", 320);
+  const tagline = textValue(formData.get("tagline"), "tagline", 500);
 
-  /* Upsert — if no row exists, insert; otherwise update row 1 */
+  /* Upsert â€” if no row exists, insert; otherwise update row 1 */
   const { error } = await supabase
     .from("site_settings")
     .upsert({
@@ -359,7 +249,7 @@ export async function saveSettings(formData: FormData) {
     });
 
   if (error) {
-    throw new Error("Failed to save settings: " + error.message);
+    ensureDatabaseOperation("save settings", error);
   }
 
   revalidatePath("/admin/settings");

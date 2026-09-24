@@ -1,5 +1,7 @@
 import { NextRequest, NextResponse } from "next/server";
 import { GoogleGenerativeAI } from "@google/generative-ai";
+import { AuthorizationError, requireAdmin } from "@/lib/auth/authorization";
+import { requestString } from "@/lib/server-validation";
 
 /* 
   Admin AI Test Route
@@ -10,14 +12,12 @@ import { GoogleGenerativeAI } from "@google/generative-ai";
 
 export async function POST(req: NextRequest) {
   try {
-    const { prompt } = await req.json();
-
-    if (!prompt || typeof prompt !== "string") {
-      return NextResponse.json(
-        { error: "Missing or invalid prompt" },
-        { status: 400 }
-      );
+    await requireAdmin();
+    const body: unknown = await req.json();
+    if (!body || typeof body !== "object" || !("prompt" in body)) {
+      return NextResponse.json({ error: "Invalid request body" }, { status: 400 });
     }
+    const prompt = requestString((body as { prompt?: unknown }).prompt, "prompt", 12000);
 
     const apiKey = process.env.GEMINI_API_KEY;
 
@@ -38,10 +38,13 @@ export async function POST(req: NextRequest) {
     const text = result.response.text();
 
     return NextResponse.json({ text });
-  } catch (err: any) {
+  } catch (err) {
+    if (err instanceof AuthorizationError) {
+      return NextResponse.json({ error: err.message }, { status: err.status });
+    }
     console.error("AI test route error:", err);
     return NextResponse.json(
-      { error: err?.message ?? "Unknown error from Gemini API" },
+      { error: "Unable to complete the AI request" },
       { status: 500 }
     );
   }
